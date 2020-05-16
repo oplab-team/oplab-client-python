@@ -2,7 +2,7 @@
 <img align="left" width="100" height="100" src="https://github.com/oplab-team/oplab-client-python/blob/master/bin/python_logo.png?raw=true">
 
 # oplab-client-python
-[![PyPI version fury.io](https://badge.fury.io/py/ansicolortags.svg)](https://pypi.python.org/pypi/ansicolortags/)
+[![PyPI version fury.io](https://badge.fury.io/py/oplab-client-python.svg)](https://pypi.org/project/oplab-client-python/)
 <img src="https://img.shields.io/discord/701830367912656928?logo=discord"
             alt="chat on Discord"></a>
 
