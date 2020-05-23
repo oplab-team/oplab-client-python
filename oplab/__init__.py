@@ -82,4 +82,10 @@ class Client:
             token = self.get_token()
         r = requests.get('%sv2/studies/%s' % (Client.BASE_URL, symbol), headers = {'Access-Token': token})
         return r.json()['target']['ewma-current']
+        
+    def get_portfolio_orders(self, id, token = None):
+        if (token is None):
+            token = self.get_token()
+        r = requests.get('%sv2/portfolios/%d/orders' % (Client.BASE_URL, id), headers = {'Access-Token': token})
+        return r.json()
 
