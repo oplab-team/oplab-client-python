@@ -51,12 +51,12 @@ class Client:
             return self.auth['access-token']
         raise NotLoggedInError
 
-    def get_historical_data(self, symbol, _from: datetime, _to = None, resolution = '1d', token = None):
+    def get_historical_data(self, symbol, _from: datetime, _to = None, resolution = '1d', fill = 'business_days', token = None):
         if (token is None):
             token = self.get_token()
         if not isinstance(_from, datetime):
             raise Exception('_from must be of type date.')
-        r = requests.get('%sv2/charts/data/%s/%s?from=%s&to=%s' % (Client.BASE_URL, symbol, resolution, _from.strftime('%Y%m%d%H%M'), _to.strftime('%Y%m%d%H%M') if _to else ''), headers = {'Access-Token': token})
+        r = requests.get('%sv2/charts/data/%s/%s?from=%s&to=%s&fill=%s' % (Client.BASE_URL, symbol, resolution, _from.strftime('%Y%m%d%H%M'), _to.strftime('%Y%m%d%H%M') if _to else '', fill), headers = {'Access-Token': token})
         return r.json()
 
     def get_options_positions(self, token = None):
