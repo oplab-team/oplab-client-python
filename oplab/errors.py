@@ -22,3 +22,14 @@ class NotLoggedInError(Error):
   def __init__(self, message = 'You must first login with a valid email and password using method login(email, password).'):
     super().__init__(message)
     self.message = message
+
+class WrongParameterError(Error):
+  """Exception raised for when wrong or no parameters are passed.
+
+  Attributes:
+      message -- explanation of the error
+  """
+  
+  def __init__(self, message = 'You must pass all necessary parameters.'):
+    super().__init__(message)
+    self.message = message

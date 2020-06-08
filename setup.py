@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="oplab-client-python",
-    version="0.1.0",
+    version="0.2.0",
     author="César Vargas",
     author_email="cesar@oplab.com",
     description="Oplab's API Client Package",
@@ -13,6 +13,9 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/oplab-team/oplab-client-python",
     packages=setuptools.find_packages(),
+    install_requires=[
+          'requests',
+      ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

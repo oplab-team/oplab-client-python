@@ -14,5 +14,33 @@ class TestOrderMethods(unittest.TestCase):
         orders = c.get_portfolio_orders(14915)
         self.assertIsInstance(orders, list)
 
+class TestHistoricalDataMethods(unittest.TestCase):
+
+    def test_get_historical_data(self):
+        """
+        Should return last 252 days of historical data
+        """
+        data = c.get_historical_data('PETR4', 252)
+        self.assertEqual(len(data['data']), 252)
+
+class TestPortfoliosMethods(unittest.TestCase):
+
+    def test_get_portfolios(self):
+        """
+        Should return an array of portfolios
+        """
+        portfolios = c.get_portfolios()
+        self.assertIsInstance(portfolios, list)
+    
+    def test_get_portfolio(self):
+        """
+        Should return a portfolio
+        """
+        portfolios = c.get_portfolios()
+        portfolio_id = portfolios[0]['id']
+        portfolio = c.get_portfolio(portfolio_id)
+        print(portfolio)
+        self.assertIsInstance(portfolio, dict)
+
 if __name__ == '__main__':
     unittest.main()

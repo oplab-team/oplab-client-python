@@ -1,6 +1,8 @@
-import requests
 from datetime import datetime
+import os
 from oplab.errors import *
+
+import requests
 
 class Client:
     """
@@ -31,15 +33,15 @@ class Client:
         Gets a stock's ewma.
     """
 
-    BASE_URL = 'https://api.oplab.com.br/'
-
+    BASE_URL =  '%s/' % os.getenv('HOST', default='https://api.oplab.com.br/')
+    
     def __init__(self, version = 'latest'):
       
         self.auth = {}
         self.is_logged = False
 
     def login(self, email, password):
-        r = requests.post('%sv2/users/authenticate' % Client.BASE_URL, {'email': email, 'password': password})
+        r = requests.post('%sv3/domain/users/authenticate' % Client.BASE_URL, {'email': email, 'password': password})
         self.auth = r.json()
         if (self.auth['access-token']):
             self.is_logged = True
@@ -51,12 +53,24 @@ class Client:
             return self.auth['access-token']
         raise NotLoggedInError
 
-    def get_historical_data(self, symbol, _from: datetime, _to = None, resolution = '1d', fill = 'business_days', token = None):
+    def get_portfolios(self, token=None):
         if (token is None):
             token = self.get_token()
-        if not isinstance(_from, datetime):
-            raise Exception('_from must be of type date.')
-        r = requests.get('%sv2/charts/data/%s/%s?from=%s&to=%s&fill=%s' % (Client.BASE_URL, symbol, resolution, _from.strftime('%Y%m%d%H%M'), _to.strftime('%Y%m%d%H%M') if _to else '', fill), headers = {'Access-Token': token})
+        r = requests.get('%sv3/domain/portfolios/' % Client.BASE_URL, headers = {'Access-Token': token})
+        return r.json()
+    
+    def get_portfolio(self, portfolio_id, token=None):
+        if (portfolio_id is None):
+            raise WrongParameterError
+        if (token is None):
+            token = self.get_token()
+        r = requests.get('%sv3/domain/portfolios/%s' % (Client.BASE_URL, portfolio_id), headers = {'Access-Token': token})
+        return r.json()
+
+    def get_historical_data(self, symbol, amount=None, _from= None, _to = None, resolution = '1d', fill = 'business_days', token = None):
+        if (token is None):
+            token = self.get_token()
+        r = requests.get('%sv3/domain/charts/data/%s/%s?amount=%d&from=%s&to=%s&fill=%s' % (Client.BASE_URL, symbol, resolution, amount if amount else '', _from.strftime('%Y%m%d%H%M') if _from else '', _to.strftime('%Y%m%d%H%M') if _to else '', fill), headers = {'Access-Token': token})
         return r.json()
 
     def get_options_positions(self, token = None):
@@ -86,6 +100,6 @@ class Client:
     def get_portfolio_orders(self, id, token = None):
         if (token is None):
             token = self.get_token()
-        r = requests.get('%sv2/portfolios/%d/orders' % (Client.BASE_URL, id), headers = {'Access-Token': token})
+        r = requests.get('%sv3/domain/portfolios/%d/orders' % (Client.BASE_URL, id), headers = {'Access-Token': token})
         return r.json()
 
