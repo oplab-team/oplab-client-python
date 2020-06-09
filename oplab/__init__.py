@@ -103,3 +103,14 @@ class Client:
         r = requests.get('%sv3/domain/portfolios/%d/orders' % (Client.BASE_URL, id), headers = {'Access-Token': token})
         return r.json()
 
+    def create_order(self, order, id, token = None):
+        if (token is None):
+            token = self.get_token()
+        r = requests.post('%sv3/domain/portfolios/%d/orders' % (Client.BASE_URL, id), data = order, headers = {'Access-Token': token})
+        return r.json()
+    
+    def update_balancing(self, balancing, id, token = None):
+        if (token is None):
+            token = self.get_token()
+        r = requests.put('%sv3/domain/portfolios/%d/balancings' % (Client.BASE_URL, id), data = balancing, headers = {'Access-Token': token})
+        return r.json()

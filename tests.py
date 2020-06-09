@@ -23,6 +23,14 @@ class TestHistoricalDataMethods(unittest.TestCase):
         data = c.get_historical_data('PETR4', 252)
         self.assertEqual(len(data['data']), 252)
 
+class TestOrderMethods(unittest.TestCase):
+    def test_create_order(self):
+        """
+        Should return a newly created order with the same symbol
+        """
+        created_order = c.create_order({'symbol': 'PETR4', 'price': 20, 'amount': 100, 'direction': 'buy', 'order_type': 'test', 'status': 'executed' }, 14915)
+        self.assertEqual(created_order['symbol'], 'PETR4' ) 
+
 class TestPortfoliosMethods(unittest.TestCase):
 
     def test_get_portfolios(self):
