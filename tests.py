@@ -11,7 +11,7 @@ class TestOrderMethods(unittest.TestCase):
         """
         Portfolio orders should return an array
         """
-        orders = c.get_portfolio_orders(14915)
+        orders = c.domain.get_portfolio_orders(14915)
         self.assertIsInstance(orders, list)
 
 class TestHistoricalDataMethods(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestHistoricalDataMethods(unittest.TestCase):
         """
         Should return last 252 days of historical data
         """
-        data = c.get_historical_data('PETR4', 252)
+        data = c.domain.get_historical_data('PETR4', 252)
         self.assertEqual(len(data['data']), 252)
 
 class TestOrderMethods(unittest.TestCase):
@@ -37,18 +37,44 @@ class TestPortfoliosMethods(unittest.TestCase):
         """
         Should return an array of portfolios
         """
-        portfolios = c.get_portfolios()
+        portfolios = c.domain.get_portfolios()
         self.assertIsInstance(portfolios, list)
     
     def test_get_portfolio(self):
         """
         Should return a portfolio
         """
-        portfolios = c.get_portfolios()
+        portfolios = c.domain.get_portfolios()
         portfolio_id = portfolios[0]['id']
-        portfolio = c.get_portfolio(portfolio_id)
+        portfolio = c.domain.get_portfolio(portfolio_id)
         print(portfolio)
         self.assertIsInstance(portfolio, dict)
+
+class TestMarketEndpoints(unittest.TestCase):
+    def test_base_url(self):
+        """
+        Should return https://api.oplab.com.br/v3/market
+        as default market url.
+        """
+        self.assertEqual(c.market.url(), 'https://api.oplab.com.br/v3/market')
+
+class TestDomainEndpoints(unittest.TestCase):
+    def test_base_url(self):
+        """
+        Should return https://api.oplab.com.br/v3/domain
+        as default domain url.
+        """
+        self.assertEqual(c.domain.url(), 'https://api.oplab.com.br/v3/domain')
+    def test_get_portfolio_orders(self):
+        portfolio = c.domain.get_portfolios()[-1]
+        self.assertIsInstance(c.domain.get_portfolio_orders(portfolio['id']), list)
+class TestQuantEndpoints(unittest.TestCase):
+    def test_base_url(self):
+        """
+        Should return https://api.oplab.com.br/v3/quant
+        as default domain url.
+        """
+        self.assertEqual(c.quant.url(), 'https://api.oplab.com.br/v3/quant')
 
 if __name__ == '__main__':
     unittest.main()

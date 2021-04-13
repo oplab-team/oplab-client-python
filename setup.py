@@ -7,7 +7,7 @@ setuptools.setup(
     name="oplab-client-python",
     version="0.2.3",
     author="César Vargas",
-    author_email="cesar@oplab.com",
+    author_email="cesar@oplab.com.br",
     description="Oplab's API Client Package",
     long_description=long_description,
     long_description_content_type="text/markdown",
