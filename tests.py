@@ -5,6 +5,8 @@ from oplab import Client
 c = Client()
 c.login(os.environ['USER'], os.environ['PASSWORD'])
 # getting orders
+
+
 class TestOrderMethods(unittest.TestCase):
 
     def test_get_portfolio_orders(self):
@@ -13,6 +15,7 @@ class TestOrderMethods(unittest.TestCase):
         """
         orders = c.domain.get_portfolio_orders(14915)
         self.assertIsInstance(orders, list)
+
 
 class TestHistoricalDataMethods(unittest.TestCase):
 
@@ -23,13 +26,16 @@ class TestHistoricalDataMethods(unittest.TestCase):
         data = c.domain.get_historical_data('PETR4', 252)
         self.assertEqual(len(data['data']), 252)
 
+
 class TestOrderMethods(unittest.TestCase):
     def test_create_order(self):
         """
         Should return a newly created order with the same symbol
         """
-        created_order = c.create_order({'symbol': 'PETR4', 'price': 20, 'amount': 100, 'direction': 'buy', 'order_type': 'test', 'status': 'executed' }, 14915)
-        self.assertEqual(created_order['symbol'], 'PETR4' ) 
+        created_order = c.domain.create_order(
+            {'symbol': 'PETR4', 'price': 20, 'amount': 100, 'direction': 'buy', 'order_type': 'test', 'status': 'executed'}, 14915)
+        self.assertEqual(created_order['symbol'], 'PETR4')
+
 
 class TestPortfoliosMethods(unittest.TestCase):
 
@@ -39,7 +45,7 @@ class TestPortfoliosMethods(unittest.TestCase):
         """
         portfolios = c.domain.get_portfolios()
         self.assertIsInstance(portfolios, list)
-    
+
     def test_get_portfolio(self):
         """
         Should return a portfolio
@@ -50,6 +56,7 @@ class TestPortfoliosMethods(unittest.TestCase):
         print(portfolio)
         self.assertIsInstance(portfolio, dict)
 
+
 class TestMarketEndpoints(unittest.TestCase):
     def test_base_url(self):
         """
@@ -58,6 +65,12 @@ class TestMarketEndpoints(unittest.TestCase):
         """
         self.assertEqual(c.market.url(), 'https://api.oplab.com.br/v3/market')
 
+    def test_historical_options(self):
+        options = c.market.historical_options('PETZ3')
+        self.assertIsInstance(
+            options, list)
+
+
 class TestDomainEndpoints(unittest.TestCase):
     def test_base_url(self):
         """
@@ -65,9 +78,13 @@ class TestDomainEndpoints(unittest.TestCase):
         as default domain url.
         """
         self.assertEqual(c.domain.url(), 'https://api.oplab.com.br/v3/domain')
+
     def test_get_portfolio_orders(self):
         portfolio = c.domain.get_portfolios()[-1]
-        self.assertIsInstance(c.domain.get_portfolio_orders(portfolio['id']), list)
+        self.assertIsInstance(
+            c.domain.get_portfolio_orders(portfolio['id']), list)
+
+
 class TestQuantEndpoints(unittest.TestCase):
     def test_base_url(self):
         """
@@ -75,6 +92,7 @@ class TestQuantEndpoints(unittest.TestCase):
         as default domain url.
         """
         self.assertEqual(c.quant.url(), 'https://api.oplab.com.br/v3/quant')
+
 
 if __name__ == '__main__':
     unittest.main()
