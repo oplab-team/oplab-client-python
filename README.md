@@ -8,7 +8,7 @@
 
 ## Description
 
-This pip package's intent is to provide a safe and easy way to interact with [Oplab's public API](https://docs.oplab.com.br). With it, you should be able to use the latest feature additions to the API as we publish them.
+This pip package's intent is to provide a safe and easy way to interact with [Oplab's public API](https://apidocs.oplab.com.br). With it, you should be able to use the latest feature additions to the API as we publish them.
 
 ## Installation
 
