@@ -86,3 +86,13 @@ class Domain:
         r = requests.put('%s/portfolios/%d/balancings' %
                          (self.url(), id), data=balancing, headers={'Access-Token': token})
         return r.json()
+
+    def get_strategies(self, portfolio_id, token=None):
+        if (portfolio_id is None):
+            raise WrongParameterError
+        if (token is None):
+            token = self.client.get_token()
+        r = requests.get('%s/portfolios/%d/strategies/' %
+                         (self.url(), portfolio_id),
+                         headers={'Access-Token': token})
+        return r.json()
