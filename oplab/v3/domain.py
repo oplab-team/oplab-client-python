@@ -46,6 +46,19 @@ class Domain:
                          portfolio_id), headers={'Access-Token': token})
         return r.json()
 
+    def get_default_portfolio_id(self, token=None):
+        if (token is None):
+            token = self.client.get_token()
+        r = requests.get('%s/portfolios/' % self.url(),
+                         headers={'Access-Token': token})
+        portfolios = r.json()
+        default_portfolio_id = None
+        for p in portfolios:
+            if p["is_default"]:
+                default_portfolio_id = p["id"]
+                break
+        return default_portfolio_id
+
     def get_historical_data(self, symbol, amount=None, _from=None, _to=None, resolution='1d', fill='business_days', token=None):
         if (token is None):
             token = self.client.get_token()
