@@ -96,3 +96,67 @@ class Domain:
                          (self.url(), portfolio_id),
                          headers={'Access-Token': token})
         return r.json()
+
+    def get_trading_accounts(self, token=None):
+        if (token is None):
+            token = self.client.get_token()
+        r = requests.get('%s/trading_accounts/' % self.url(),
+                         headers={'Access-Token': token})
+        return r.json()
+
+    def create_robot(self, portifolio_id, robot, dry_run = False, token=None):
+        if (token is None):
+            token = self.client.get_token()
+
+        if (dry_run):
+            print('%s/portfolios/%d/robots with data %s' % (self.url(), portifolio_id, robot))
+            return
+        else:
+            r = requests.post('%s/portfolios/%d/robots' %
+                             (self.url(), portifolio_id),
+                             json=robot, headers={'Access-Token': token})
+            return r.json()
+
+    def get_robots(self, portifolio_id, status = None, token=None):
+        if (token is None):
+            token = self.client.get_token()
+        if (status is None):
+            r = requests.get('%s/portfolios/%d/robots' %
+                             (self.url(), portifolio_id),
+                             headers={'Access-Token': token})
+        else:
+            r = requests.get('%s/portfolios/%d/robots?status=%s' %
+                (self.url(), portifolio_id, status), headers={'Access-Token': token})
+        return r.json()
+
+    def get_robot(self, portifolio_id, robot_id, token=None):
+        if (token is None):
+            token = self.client.get_token()
+        r = requests.get('%s/portfolios/%d/robots/%d' %
+                         (self.url(), portifolio_id, robot_id),
+                         headers={'Access-Token': token})
+        return r.json()
+
+    def cancel_robot(self, portifolio_id, robot_id, token=None):
+        if (token is None):
+            token = self.client.get_token()
+        r = requests.delete('%s/portfolios/%d/robots/%d' %
+                            (self.url(), portifolio_id, robot_id),
+                            headers={'Access-Token': token})
+        return r.json()
+
+    def pause_robot(self, portifolio_id, robot_id, token=None):
+        if (token is None):
+            token = self.client.get_token()
+        r = requests.post('%s/portfolios/%d/robots/%d/pause' %
+                         (self.url(), portifolio_id, robot_id),
+                         headers={'Access-Token': token})
+        return r.json()
+
+    def resume_robot(self, portifolio_id, robot_id, token=None):
+        if (token is None):
+            token = self.client.get_token()
+        r = requests.post('%s/portfolios/%d/robots/%d/resume' %
+                         (self.url(), portifolio_id, robot_id),
+                         headers={'Access-Token': token})
+        return r.json()
