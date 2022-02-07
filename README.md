@@ -12,7 +12,11 @@ This pip package's intent is to provide a safe and easy way to interact with [Op
 
 ## Installation
 
+Install from released version:
 `pip install oplab-client-python`
+
+Local installation for developers:
+`pip install -e .`
 
 ## Usage
 
