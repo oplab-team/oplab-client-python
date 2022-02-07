@@ -46,10 +46,11 @@ class Domain:
                          portfolio_id), headers={'Access-Token': token})
         return r.json()
 
+    # DEPRECATED: use market.get_historical_data() instead
     def get_historical_data(self, symbol, amount=None, _from=None, _to=None, resolution='1d', fill='business_days', token=None):
         if (token is None):
             token = self.client.get_token()
-        r = requests.get('%s/market/historical/%s/%s?amount=%d&from=%s&to=%s&fill=%s' % (self.url(), symbol, resolution, amount if amount else '',
+        r = requests.get('%s/charts/data/%s/%s?amount=%d&from=%s&to=%s&fill=%s' % (self.url(), symbol, resolution, amount if amount else '',
                          _from.strftime('%Y%m%d%H%M') if _from else '', _to.strftime('%Y%m%d%H%M') if _to else '', fill), headers={'Access-Token': token})
         return r.json()
 
