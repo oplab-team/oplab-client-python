@@ -59,6 +59,7 @@ class Domain:
                 break
         return default_portfolio_id
 
+    # DEPRECATED: use market.get_historical_data() instead
     def get_historical_data(self, symbol, amount=None, _from=None, _to=None, resolution='1d', fill='business_days', token=None):
         if (token is None):
             token = self.client.get_token()
